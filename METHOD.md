@@ -1,59 +1,40 @@
-# Prospective economic repository-operation pilot
+# Public holdout fast pilot — frozen secondary method
+
+## Status and provenance
+
+This is a bounded secondary pilot derived from the public capstone selection and signed gold preflight. It is not a continuation or reinterpretation of the primary capstone, which terminated `setup-unknown` before model inference because only 41 of 60 required evaluation tasks could be assigned. The terminal record remains unchanged.
+
+No model has been run on a pilot-assigned task when this method and its assignment are frozen. The reduced sample size and two-plan design were chosen using setup yield and runtime only. No model output or model verdict exists to influence the design.
 
 ## Question
 
-Can a policy frozen before execution preserve verified repository-operation
-completion while reducing measured GPU energy and modeled GPU cost relative to
-running the stronger local model for every operation?
+Across a small, diverse sample of outside-authored repository repairs, can Citadel use calibration evidence to choose between local-first execution and direct Claude while preserving observed verified quality and reducing comparison cost?
 
-## Frozen design
+## Fixed sample
 
-- Twelve unique, previously unrun synthetic repository operations.
-- One attempt per task and policy; repetitions are not substituted for task
-  diversity.
-- Baseline: Qwen 2.5 Coder 7B for every task.
-- Candidate: Qwen 2.5 Coder 7B for high-risk tasks; Qwen 2.5 Coder 3B for low
-  and moderate risk, with one 7B escalation only after the deterministic
-  repository verifier rejects the 3B artifact.
-- Temperature zero, fixed seed, fixed context and output limits.
-- Fresh fixture copy for every attempt.
-- Exact allowed-path contract and a model-external Node verifier for every
-  artifact.
-- Stable hash schedule, signed receipt chain, full transitive source binding,
-  and offline verifier replay.
+The pilot reuses the parent drand selection and the signed 80-task gold preflight. Within each of the four frozen language/issue-length strata, it scans the existing public rank order and accepts only tasks with three of three gold passes. It assigns the first two eligible tasks to calibration and the next four to untouched evaluation, with a maximum of one task from any repository. The fixed result is 8 calibration tasks, 16 evaluation tasks, and 24 distinct repositories. If those quotas cannot be filled, the pilot stops `setup-unknown` before inference.
 
-The fixtures and risk labels are author-selected. No model has executed these
-exact scenarios before the freeze. There is no outside selector, and the task
-set is not represented as a random sample of production work.
+This preflight-informed secondary design is disclosed precisely because the primary 20/60 quota failed. It makes no claim to preserve the primary study's preregistration or statistical power.
 
-## Gates
+## Plans and controller
 
-Every gate must pass:
+Every assigned task receives independent outputs from:
 
-1. Always-7B verifies at least 80% of all tasks.
-2. Always-7B verifies at least 70% within each preregistered risk stratum.
-3. The candidate preserves at least 95% of always-7B verified completion.
-4. Candidate measured GPU energy is at least 30% lower.
-5. Candidate modeled GPU cost is at least 30% lower.
-6. All scheduled cells terminate with verified runtime identity.
-7. Zero changed-path violations, false passes, receipt-chain failures, source
-   drift, digest drift, or signature failures.
+1. Qwen 2.5 Coder 3B locally through the pinned Ollama model digest;
+2. Claude Sonnet through authenticated Claude Code 2.1.219.
 
-Unknown measurement fails its dependent gate. No failed cell is silently
-removed. The frozen schedule may be resumed but not rewritten.
+Calibration records the official verifier result, duration, measured local GPU economics, and provider-reported Claude comparison amount for both plans. For each evaluation task, Citadel compares two root paths: Qwen 3B then Claude after verifier rejection, or Claude directly. The direct-Claude conservative probability in the same stratum is the quality target. Citadel chooses the lower expected comparison-cost path meeting that target, or the highest conservative-quality path if neither meets it. All 16 routes and the calibration-history digest are signed and published before evaluation-task model calls.
 
-## Economics boundary
+## Information and verifier boundary
 
-GPU energy is average `nvidia-smi` board power sampled every 500 ms multiplied
-by request wall duration. Modeled comparison cost is that energy at the frozen
-electricity rate plus duration-based residual GPU amortization. Provider invoice
-is exactly zero for self-hosted Ollama requests. Actual end-to-end cash is
-unknown because CPU and whole-system energy, setup, downloads, observed utility
-rate, and human utility are not measured.
+Models receive only the issue statement and deterministic repository files retrieved at the pinned base commit. They receive no accepted patch, test patch, hints, hidden test names, competing output, assignment phase, or verifier result. Model tools and network access are disabled. Microsoft's pinned SWE-bench-Live evaluator and per-instance containers remain the only completion authority.
 
-## Interpretation
+Prediction evaluation is bounded to 60 minutes per cell. A timeout or evaluator defect is `unknown`, never a model failure. The workflow still emits and uploads a content-addressed summary instead of allowing the entire run to end as an unexplained cancellation.
 
-A pass is positive local evidence for this frozen task set. It is not external
-selection, production reliability, multi-family or multi-stack validation,
-general savings, or a complete cost-of-ownership result. A failure remains a
-published diagnostic result.
+## Policies, economics, and claims
+
+The paired policies are always-Claude, static local-first, and the sealed Citadel controller. A policy stops on its first official pass; speculative unvisited outputs are disclosed but excluded from policy comparison cost. Provider-reported Claude comparison USD and measured local GPU-derived comparison cost are kept separate from actual subscription cash, which remains unknown.
+
+The primary pilot readout is descriptive: observed paired verified rates and total comparison cost across the 16 tasks. A preliminary signal requires Citadel's observed verified rate to be no lower than always-Claude and its comparison cost to be lower. A stratified paired bootstrap is reported as exploratory uncertainty, not as a population noninferiority test. No universal savings, production reliability, or best-in-class claim is permitted.
+
+Passed, failed, and unknown results are all signed and published. There is no task replacement, model-result tuning, optional stopping, or positive-only publication.

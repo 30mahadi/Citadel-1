@@ -1,87 +1,37 @@
-# Citadel prospective local economic comparison
+# Citadel capability-profile local optimizer benchmark v2
 
-Status: **unexecuted method** until `freeze.json` is generated, committed, and
-published. Measured execution must refuse to start when the freeze or its
-source digests do not verify.
+## Purpose
 
-## Question
+This prospective follow-up tests a policy change motivated by, but not tuned on, the locked v1 result. V1 routed every compact task to one 3B model and reduced measured GPU energy by only 9.9%. Before seeing any v2 holdout outputs, Citadel freezes a capability profile with three lanes: a 1.5B lane for atomic numeric work, a 3B lane for lexical counting, and a 7B lane for compositional, constraint, or adversarial work. An independently recomputed exact-answer verifier may escalate a failed small-model attempt once to 7B.
 
-Can a deterministic Citadel policy preserve the independently verified
-completion rate of always using the larger local model while reducing measured
-GPU energy, model duration, and a declared comparison-cost model?
+The claim under test is narrow: on this machine and task set, can the frozen capability profile preserve at least 95% of the always-7B verified completion rate while reducing measured GPU energy and modeled GPU electricity plus amortization by at least 30%?
 
-This is a preregistered local pilot on one consumer machine. It is not evidence
-of broad agent-stack superiority, production reliability, or actual-dollar
-savings.
+## Prospective controls
 
-## Frozen comparison
+- Twelve new holdout tasks are stored in `scenarios.json`; none appeared in v1 or calibration.
+- Two policies run three repetitions per task: 72 signed cells total.
+- The order is fixed by hashing the frozen seed, scenario, policy, and repetition.
+- `always-strong-local` runs Qwen2.5-Coder 7B once.
+- `citadel-capability-profile-local` applies only frozen task-text rules: numeric atomic -> 1.5B, lexical counting -> 3B, and compositional/constraint/adversarial -> 7B.
+- A failed 1.5B or 3B answer escalates once to 7B. A 7B initial route does not escalate.
+- Every request uses temperature 0, seed 42, a 2,048-token context, a 128-token output cap, and `keep_alive: 0` so each measured attempt includes cold model residency costs.
+- The answer verifier is deterministic and external to the model. Model prose cannot change a verdict.
+- Each cell binds requested and observed model identity, output and answer verdict, token counts, duration, sampled GPU energy, modeled comparison cost, the preceding receipt digest, and an Ed25519 signature.
+- Offline verification recomputes routing, answers, economics, chain links, artifacts, source digests, and signatures.
 
-- 12 previously unexecuted tasks: eight compact controls and four deeper
-  constraint, graph, scheduling, and adversarial tasks.
-- Two policies: `always-strong-local` and `citadel-adaptive-local`.
-- Three repetitions per task and policy, for 72 primary cells.
-- `always-strong-local` makes one Qwen2.5-Coder 7B call.
-- `citadel-adaptive-local` applies Citadel's already-published task-feature
-  function. Scores below `0.20` start with Qwen2.5-Coder 3B; other tasks start
-  with 7B. A failed 3B answer may escalate once to the same 7B baseline model.
-- Temperature is zero and output is capped at 128 tokens.
-- Cell order is derived from the frozen seed and task/policy/repetition IDs.
+## Frozen gates
 
-Each model receives only the task plus an instruction to return one JSON object
-with an `/answer` value. Expected answers remain digest-only and are never sent
-to the provider.
+- Relative verified completion >= 95% of always-7B.
+- Measured GPU-energy reduction >= 30%.
+- Modeled GPU electricity plus amortization reduction >= 30%.
+- Complete terminal coverage, verified execution identity, zero false passes, and zero integrity failures.
 
-## Verification and integrity
+The aggregate is a failure if any gate fails. Failed and unknown executions remain in the result.
 
-- Completion is decided outside the model by exact canonical SHA-256 answer
-  comparison.
-- Model self-reports cannot pass a cell.
-- Requested model, observed model, and the installed Ollama manifest digest
-  must agree.
-- Every attempt retains duration, tokens, output digest, and sampled GPU power.
-- Primary cell receipts form a hash chain in frozen execution order.
-- Every cell receipt and the final bundle are Ed25519-signed.
-- Failed, unknown, interrupted, and escalated attempts remain in the bundle.
-- Offline verification recomputes scenarios, routes, answers, receipts, chain,
-  summaries, source digests, model identities, and signatures.
+## Cost boundary
 
-## Economic lenses
+Ollama has no per-request provider invoice. GPU energy is sampled with `nvidia-smi`. Electricity uses a frozen $0.20/kWh scenario. GPU amortization uses a frozen $100 residual value over 10,000 useful compute hours. CPU, memory, storage, display, setup/download cost, utility-bill reality, and whole-system energy are unknown. The modeled total is a comparison metric, not an observed cash bill.
 
-No list price is presented as cash spend.
+## Generalization boundary
 
-- Ollama provider invoice: observed `$0` per request.
-- GPU energy: measured by 500 ms NVIDIA power samples and integration over the
-  attempt wall duration.
-- Electricity comparison: derived from measured GPU kWh using a frozen
-  `$0.20/kWh` scenario assumption; it is not Seth's observed utility rate.
-- GPU amortization comparison: derived from a frozen `$100` residual-value and
-  `10,000` useful-compute-hour scenario; it is not an invoice or appraisal.
-- CPU, memory, storage, display, and whole-system energy remain unknown.
-- Setup and model-download costs are excluded and disclosed.
-- Human intervention during measured execution must be zero.
-
-The pilot may therefore claim measured GPU-energy and modeled comparison-cost
-differences. It may not claim complete actual-dollar savings.
-
-## Precommitted gates
-
-The local pilot passes only when all are true:
-
-1. adaptive verified completion is at least 95% of the always-7B rate;
-2. adaptive measured GPU energy is at least 30% lower than always-7B;
-3. adaptive modeled GPU electricity plus amortization is at least 30% lower;
-4. every completed attempt has exact model and manifest evidence;
-5. every primary cell has a terminal passed, failed, or unknown classification;
-6. adversarial false passes, signature failures, chain failures, and receipt
-   integrity failures are all zero.
-
-Latency and token differences are reported but are not passing gates.
-
-## Claim boundary
-
-A passing result would establish one prospective constrained-hardware economic
-comparison for an open local model family. It would not establish the funded
-target across multiple stacks, model families, machines, or real repositories.
-A failed gate is still a publishable result and must not be replaced under this
-benchmark identity.
-
+This is one Windows workstation, one GTX 1070, one quantized Qwen model family, and exact-answer tasks. It tests whether the capability-profile mechanism can produce a prospective result; it does not establish broad production savings or best-in-class performance.

@@ -1,5 +1,6 @@
 'use strict';
 const assert = require('assert');
-const api = require('./src/format');
-assert.strictEqual(api.formatItem({ id: 7, label: 'ready' }), '7: ready');
-assert.strictEqual(api.formatLegacy, api.formatItem);
+const { clamp } = require('./src/clamp');
+assert.strictEqual(clamp(-2, 0, 10), 0);
+assert.strictEqual(clamp(12, 0, 10), 10);
+assert.strictEqual(clamp(6, 0, 10), 6);

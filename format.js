@@ -1,5 +1,7 @@
 'use strict';
-function formatLegacy(item) {
-  return `${item.id}: ${item.label}`;
+
+function formatUser(user) {
+  return `${user.name} <${user.email}>`;
 }
-module.exports = { formatLegacy };
+
+module.exports = { formatUser };

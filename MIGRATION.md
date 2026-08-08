@@ -1,4 +1,4 @@
-# Schema 3
+# Schema 2
 
-Set `schema` to `3`. `retries` and `backoff_ms` are JSON numbers in schema 3.
-Preserve `service` and `enabled`; no additional keys are permitted.
+Set `schema_version` to 2. `timeout_seconds` and `retries` are numeric. Keep
+`service` unchanged. The schema contains exactly those four fields.

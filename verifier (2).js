@@ -1,9 +1,8 @@
 'use strict';
 const assert = require('assert');
-const { isWithinRange } = require('./src/range');
-assert.strictEqual(isWithinRange(1, 1, 3), true);
-assert.strictEqual(isWithinRange(3, 1, 3), true);
-assert.strictEqual(isWithinRange(2, 1, 3), true);
-assert.strictEqual(isWithinRange(0, 1, 3), false);
-assert.strictEqual(isWithinRange(4, 1, 3), false);
-assert.strictEqual(isWithinRange('2', 1, 3), false);
+const fs = require('fs');
+const readme = fs.readFileSync('README.md', 'utf8');
+assert(readme.includes('`/do setup --express`'));
+assert(!readme.includes('`/do setup`'));
+assert(readme.includes('The setup step creates local project state.'));
+process.stdout.write('documentation verifier passed\n');

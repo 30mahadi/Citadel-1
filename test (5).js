@@ -1,5 +1,6 @@
 'use strict';
 const assert = require('assert');
-const { normalizeStatus } = require('./src/status');
-assert.strictEqual(normalizeStatus(' READY '), 'ready');
-assert.strictEqual(normalizeStatus(null), 'unknown');
+const { dedupe } = require('./src/dedupe');
+assert.deepStrictEqual(dedupe([1, '1', 1, 2, '1']), [1, '1', 2]);
+const object = {};
+assert.deepStrictEqual(dedupe([object, object, null, null]), [object, null]);

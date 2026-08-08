@@ -1,3 +1,4 @@
 # Install
 
-After installation, the supported trace command is `CITADEL_TRACE=true npm run start`.
+Prepare the repository with `/do setup --express`, then begin work in a fresh
+session.

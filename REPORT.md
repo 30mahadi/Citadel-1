@@ -1,35 +1,39 @@
-# Citadel representative repository-operation pilot v2
+# Citadel prospective local economic comparison result
 
-Run: `sha256:6a270bf3ac6db239c453823fe387bfcd536ababd272e49558a0d375290e9b827`  
-Freeze: `sha256:2919cec68fd2293006b9fa3139f4e2920f9e2361cf2a487b29725ed43426e3ec`  
-Window: 2026-08-01T05:19:58.399Z to 2026-08-01T05:23:49.666Z
+Run: `sha256:92f8ca62dd0a5d119a0ded1c3a78c8bf77ba9b850905cd0c6c8fc898534197c1`  
+Freeze: `sha256:40858b138a4125461bc25eda126b0df5875cca5e6f19c48709153dc22be60086`  
+Window: 2026-08-01T03:02:13.729Z to 2026-08-01T03:12:18.830Z
 
-Evidence and economic gates: **failed**.
+## Outcome
 
-| Policy | Unique tasks | Verified cells | Attempts | 3B | 7B | Escalations | Request wall time | GPU kWh | Modeled GPU USD |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| always-strong-local | 6 | 6/12 | 12 | 0 | 12 | 0 | 110.9s | 0.002507 | $0.000810 |
-| citadel-risk-profile-local | 6 | 6/12 | 14 | 8 | 6 | 2 | 110.1s | 0.002329 | $0.000772 |
+Evidence and economic gates: **failed**.  
+False passes: **0**.  
+Integrity failures: **0**.
 
-## Frozen comparisons
+| Policy | Verified | Attempts | 3B | 7B | Escalations | Duration | GPU kWh | Modeled comparison USD |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| always-strong-local | 24/36 | 36 | 0 | 36 | 0 | 314.9s | 0.004599 | $0.001795 |
+| citadel-adaptive-local | 27/36 | 39 | 24 | 15 | 3 | 280.8s | 0.004145 | $0.001609 |
 
-- Relative verified-cell completion: 100.0% of always-7B.
-- GPU-energy reduction: 7.1%.
-- Modeled GPU-cost reduction: 4.7%.
-- Request wall-time reduction: 0.7%.
+## Precommitted comparison
 
-## Gates
+- Relative verified completion: 112.5% of always-7B.
+- GPU-energy reduction: 9.9%.
+- Modeled GPU electricity plus amortization reduction: 10.3%.
+- Model-duration reduction: 10.8%.
+- Token reduction: -11.2%.
+
+## Gate results
 
 - quality: **passed**
 - gpu_energy: **failed**
-- modeled_gpu_cost: **failed**
+- modeled_cost: **failed**
 - terminal_coverage: **passed**
-- execution_identity: **passed**
-- zero_path_violations: **passed**
+- execution_identity: **failed**
 - zero_false_passes: **passed**
 
-## Boundary
+## Claim boundary
 
-Six unique fixture tasks × two policies × two timing repetitions. Ephemeral workspace roots are normalized before signed verifier records are compared. All other task, route, verifier, model, and cost semantics remain frozen. This shakedown does not establish general savings. Actual end-to-end cash remains unknown.
+This is a prospective 72-cell comparison on one Windows workstation, one GTX 1070, one Qwen model family, and exact-answer tasks. Provider invoice cost is observed $0 for self-hosted Ollama. GPU energy is measured. Electricity and GPU amortization are frozen scenario calculations, not observed bills. CPU, memory, storage, display, and whole-system energy remain unknown, so actual end-to-end cash remains unknown.
 
-Run `npm run representative:v2:verify` for model-external repository replay and offline reconstruction.
+Run `npm run readiness:verify` to recompute every route, answer, receipt, chain link, artifact digest, summary, source binding, and Ed25519 signature offline.
